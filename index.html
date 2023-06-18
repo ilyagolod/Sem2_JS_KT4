@@ -1,0 +1,209 @@
+<!DOCTYPE html> 
+<html> 
+<head> 
+<title>Онлайн-заявка для банковской карты</title> 
+<style> 
+form{ 
+    display: flex; 
+    flex-direction: column; 
+    align-items: center; 
+    margin-top: 50px; 
+} 
+
+input, select{ 
+    margin-bottom: 20px; 
+    padding: 5px; 
+    border-radius: 5px; 
+    border: none; 
+    box-shadow: 1px 1px 5px rgba(0,0,0,0.3); 
+    width: 250px; 
+    font-size: 16px; 
+} 
+
+
+.card-info {
+    width: 535px; 
+    height: 343px;
+    border: 1px solid grey;
+    border-radius: 15px;
+    position: absolute;
+}
+#bank {
+    font-size: 30px;
+    position: absolute;
+    top: 5px;
+    left: 20px;
+}
+#number {
+    font-size: 25px;
+    position: absolute;
+    top: 38%;
+    left: 30%;
+}
+#Card_name {
+    font-size: 30px;
+    position: absolute;
+    bottom: 10px;
+    left: 30px; 
+}
+#MY {
+    font-size: 30px;
+    position: absolute;
+    bottom: 10px;
+    left: 40%;
+}
+#payment {
+    font-size: 30px;
+    position: absolute;
+    bottom: 10px;
+    right: 30px;
+}
+
+table { 
+    margin-top: 400px; 
+    border-collapse: collapse; 
+    width: 100%; 
+} 
+
+th, td { 
+    text-align: center; 
+    border: 1px solid #ddd; 
+    padding: 10px; 
+} 
+
+th { 
+    background-color: #1AB394; 
+    color: white; 
+} 
+
+form button { 
+    padding: 10px 20px; 
+    background-color: #1AB394; 
+    color: white; 
+    border: none; 
+    border-radius: 5px; 
+    cursor: pointer; 
+} 
+
+form button:hover{ 
+    background-color: #18876D; 
+} 
+</style> 
+</head> 
+<body> 
+<form id="card-form"> 
+      <h2>Онлайн-заявка для банковской карты</h2> 
+      <label for="bank-name">Название банка:</label>
+      <select id="bank-name" name="bank-name" required> 
+          <option value="">--Выберите название банка--</option> 
+          <option value="Sberbank">Сбербанк</option> 
+          <option value="Tinkoff">Тинькофф</option> 
+          <option value="Alfabank">Альфа-банк</option> 
+      </select> 
+
+<label for="payment-system">Тип платежной системы:</label> 
+<select id="payment-system" name="payment-system" required> 
+      <option value="">--Выберите тип платежной системы--</option> 
+      <option value="visa">Visa</option> 
+      <option value="mastercard">Mastercard</option> 
+      <option value="americanexpress">American Express</option> 
+</select> 
+
+<label for="card-number">Номер карты:</label> 
+<input type="text" id="card-number" name="card-number" pattern="[0-9]{16}" maxlength="16" required> 
+
+<label for="card-holder-name">Имя держателя карты:</label> 
+<input type="text" id="card-holder-name" name="card-holder-name" required> 
+
+<label for="card-expiry">Месяц и год окончания карты:</label> 
+<input type="month" id="card-expiry" name="card-expiry" required> 
+
+<button type="submit">Отправить заявку</button> 
+</form> 
+<div class="card-info">
+      <p id="bank"></p>
+      <p id = "number"></p>
+      <p id = "Card_name"></p>
+      <p id = "MY"></p>
+      <p id = "payment"></p>
+</div>
+<table> 
+      <thead> 
+            <tr> 
+                  <th>Название банка</th> 
+                  <th>Тип платежной системы</th> 
+                  <th>Номер карты</th> 
+                  <th>Имя держателя карты</th> 
+                  <th>Месяц и год окончания карты</th> 
+            </tr> 
+      </thead> 
+      <tbody> 
+      </tbody> 
+</table> 
+
+<script> 
+const form = document.getElementById('card-form'); 
+const cardInfo = document.getElementById('card-info'); 
+const tableBody = document.querySelector('tbody'); 
+
+form.addEventListener('submit', addCard); 
+
+function addCard(e){ 
+e.preventDefault(); 
+
+const bankName = document.getElementById('bank-name').value.trim(); 
+const paymentSystem = document.getElementById('payment-system').value; 
+const cardNumber = document.getElementById('card-number').value.trim(); 
+const cardHolderName = document.getElementById('card-holder-name').value.trim(); 
+const expiry = document.getElementById('card-expiry').value; 
+
+const newRow = document.createElement('tr'); 
+newRow.innerHTML = `<td>${bankName}</td> 
+      <td>${paymentSystem.toUpperCase()}</td> 
+      <td>${cardNumber}</td> 
+      <td>${cardHolderName}</td> 
+      <td>${expiry}</td>`; 
+
+tableBody.appendChild(newRow); 
+clearForm(); 
+} 
+
+function clearForm(){ 
+      form.reset(); 
+      bank.innerHTML = ""
+      number.innerHTML = ""
+      Card_name.innerHTML = ""
+      MY.innerHTML = ""
+      payment.innerHTML = ""
+} 
+
+var bankName = document.getElementById('bank-name'); 
+var paymentSystem = document.getElementById('payment-system'); 
+var cardNumber = document.getElementById('card-number'); 
+var cardHolderName = document.getElementById('card-holder-name'); 
+var expiry = document.getElementById('card-expiry'); 
+  
+var bank = document.getElementById("bank")
+var number = document.getElementById("number")
+var Card_name = document.getElementById("Card_name")
+var MY = document.getElementById("MY")
+var payment = document.getElementById("payment")
+
+bankName.addEventListener("input", updateCardInfo);
+paymentSystem.addEventListener("input", updateCardInfo);
+cardNumber.addEventListener("input", updateCardInfo);
+cardHolderName.addEventListener("input", updateCardInfo);
+expiry.addEventListener("input", updateCardInfo);
+
+function updateCardInfo(){ 
+    bank.innerHTML = bankName.value
+    number.innerHTML = cardNumber.value
+    Card_name.innerHTML = cardHolderName.value
+    MY.innerHTML = expiry.value
+    payment.innerHTML = paymentSystem.value
+}
+
+</script> 
+
+</body> 
+</html>
